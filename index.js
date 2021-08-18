@@ -18,8 +18,8 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 app.get('/', function (req, res) {
-
-    res.render('index');
+    console.log(greetingName.values().messageGreet)
+    res.render('index')
 });
 
 app.post('/greetings', function (req, res) {
@@ -27,10 +27,12 @@ app.post('/greetings', function (req, res) {
 
     greetingName.getUserName(req.body.names)
 
-    greetingName.greet(req.body.name)
-    // console.log(settingsBill.getSettings())
+    var greetingName1 = greetingName.greet(req.body.language)
+    // console.log(greetingName1)
 
-    res.redirect('/')
+    res.render('index',{
+        greetingName1
+    })
 });
 
 

@@ -23,7 +23,7 @@
     </div>
 
     <form class="" action="/greetings" method="post">
-        <input class="textName" type="text" placeholder="enter a name" />
+        <input class="textName" type="text" name="names" placeholder="enter a name" />
         <span><label for="count">Count:<span class="counterValue"></span> </label></span>
         <p>Please select a language:</p>
         <input class="radio-btn" type="radio" name="language" value="latin" checked>Latin
@@ -41,7 +41,7 @@
     </div> --}}
 
     <div class="message">
-        <span class="outputMessage"></span>
+        <span class="outputMessage">{{greetingName1}}</span>
     </div>
 
     <!-- <div class="counter">
