@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const greetingsWeb = require('./greetings-fac');
 
 const app = express();
-const greetingName = greetName()
+const greetingName = greetingsWeb()
 
 app.engine('handlebars', exphbs({ defaultLayout: 'main', layoutsDir: __dirname + '/views/layouts' }));
 app.set('view engine', 'handlebars');
