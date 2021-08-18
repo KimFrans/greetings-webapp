@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const greetingsWeb = require('./greetings-fac');
 
 const app = express();
+const greetingName = greetName()
 
 app.engine('handlebars', exphbs({ defaultLayout: 'main', layoutsDir: __dirname + '/views/layouts' }));
 app.set('view engine', 'handlebars');
@@ -24,9 +25,9 @@ app.get('/', function (req, res) {
 app.post('/greetings', function (req, res) {
     // console.log(req.body);
 
-    grettingsWeb.getUserName(req.body.names)
+    greetingName.getUserName(req.body.names)
 
-    greetingsWeb.greet()
+    greetingName.greet(req.body.name)
     // console.log(settingsBill.getSettings())
 
     res.redirect('/')
