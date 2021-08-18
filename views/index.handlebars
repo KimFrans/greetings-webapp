@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <div class="header">
+        <h1>Greeting</h1>
+    </div>
+
+    <div class="greet-name">
+        <h2>Please enter a name</h2>
+    </div>
+
+    <div class="errorMessage">
+        <span class="errorOutputMessage"></span>
+    </div>
+
+    <form class="" action="" method="post">
+        <input class="textName" type="text" placeholder="enter a name" />
+        <span><label for="count">Count:<span class="counterValue"></span> </label></span>
+        <p>Please select a language:</p>
+        <input class="radio-btn" type="radio" name="language" value="latin" checked>Latin
+        <input class="radio-btn" type="radio" name="language" value="turkish">Turkish
+        <input class="radio-btn" type="radio" name="language" value="italian">Italian
+        <button class="greet" type="submit" name="button">Greet Me</button>
+        <button class="clear" type="submit" name="button">Clear Count</button>
+    </form>
+
+    {{!-- <div class="text-box">
+        <label for="name">Name: </label>
+        <input class="textName" type="text" placeholder="enter a name" />
+        <span><label for="count">Count:<span class="counterValue"></span> </label></span>
+        <!-- <button class="greet" type="button" name="button" >Greet</button> -->
+    </div> --}}
+
+    <div class="message">
+        <span class="outputMessage"></span>
+    </div>
+
+    <!-- <div class="counter">
+            <label for="count">Count:<span class="counterValue"></span> </label>
+        </div> -->
+
+
+    {{!-- <div class="radio-buttons">
+        <p>Please select a language:</p>
+        <form>
+            <label class="radio-inline">
+                <input class="radio-btn" type="radio" name="language" value="latin" checked>Latin
+            </label>
+            <label class="radio-inline">
+                <input class="radio-btn" type="radio" name="language" value="turkish">Turkish
+            </label>
+            <label class="radio-inline">
+                <input class="radio-btn" type="radio" name="language" value="italian">Italian
+            </label>
+        </form>
+    </div> --}}
+
+    {{!-- <div class="buttons">
+        <div class="greet-button">
+            <button class="greet" type="button" name="button">Greet</button>
+        </div>
+
+        <div class="clear-button">
+            <button class="clear" type="button" name="clear-count-button">Clear count</button>
+        </div>
+    </div> --}}
+
+    <div class="names-button">
+        <a href="namesDisplay/index.html"><button class="names" type="button" name="list-button">Names
+                Greeted</button></a>
+
+    </div>
+
+    {{!-- <div class="TDD-button">
+        <a href="https://kimfrans.github.io/greetings/factory-function/"><button class="tdd" type="button"
+                name="tdd-button">TDD</button></a>
+    </div> --}}
+
+</body>
+
+</html>
