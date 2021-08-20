@@ -1,6 +1,7 @@
 body{
     box-sizing: border-box;
     background-color: rgb(185, 200, 230);
+    text-align: center;
     /* background-image: url(images/greet\ background.png); */
 }
 
@@ -17,10 +18,10 @@ body .style{
     padding-bottom: 2%;
 }
 
-.greet-name{
-    /* text-align: center; */
+/* .greet-name{
+    text-align: center;
     padding-left: 20%;
-}
+} */
 
 .buttons{
     clear: both;
@@ -104,13 +105,13 @@ body .style{
 }
 
 .message .outputMessage{
-    padding-left: 30%;
+    /* padding-left: 30%; */
     font-weight: bold;
     font-size: 25px;
 }
 
 .errorMessage{
-    padding-left: 25%;
+    /* padding-left: 25%; */
     color: red;
     font-weight: bold;
     font-size: 15px;
@@ -118,8 +119,8 @@ body .style{
 }
 
 .names-button .names{
-    margin-left: 45%;
-    margin-top: 3%;
+    /* margin-left: 45%;
+    margin-top: 3%; */
     float: left;
     background-color: rgb(8, 8, 8);
     border: rgb(35, 125, 243);

@@ -19,71 +19,37 @@
     </div>
 
     <div class="errorMessage">
-        <span class="errorOutputMessage"></span>
+        <span class="errorOutputMessage">{{errorMess}}</span>
     </div>
 
     <form class="" action="/greetings" method="post">
         <input class="textName" type="text" name="names" placeholder="enter a name" />
-        <span><label for="count">Count:<span class="counterValue"></span> </label></span>
+        <span><label for="count">Count:<span>{{counterValue}}</span></label></span>
         <p>Please select a language:</p>
         <input class="radio-btn" type="radio" name="language" value="latin" checked>Latin
         <input class="radio-btn" type="radio" name="language" value="turkish">Turkish
         <input class="radio-btn" type="radio" name="language" value="italian">Italian
         <button class="greet" type="submit" name="button">Greet Me</button>
-        <button class="clear" type="submit" name="button">Clear Count</button>
     </form>
-
-    {{!-- <div class="text-box">
-        <label for="name">Name: </label>
-        <input class="textName" type="text" placeholder="enter a name" />
-        <span><label for="count">Count:<span class="counterValue"></span> </label></span>
-        <!-- <button class="greet" type="button" name="button" >Greet</button> -->
-    </div> --}}
 
     <div class="message">
         <span class="outputMessage">{{greetingName1}}</span>
     </div>
 
-    <!-- <div class="counter">
-            <label for="count">Count:<span class="counterValue"></span> </label>
-        </div> -->
+    <form action="/clearCount" method="post">
+        <button class="clear" type="submit" name="button">Clear Count</button>
+    </form>
 
-
-    {{!-- <div class="radio-buttons">
-        <p>Please select a language:</p>
-        <form>
-            <label class="radio-inline">
-                <input class="radio-btn" type="radio" name="language" value="latin" checked>Latin
-            </label>
-            <label class="radio-inline">
-                <input class="radio-btn" type="radio" name="language" value="turkish">Turkish
-            </label>
-            <label class="radio-inline">
-                <input class="radio-btn" type="radio" name="language" value="italian">Italian
-            </label>
-        </form>
+    {{!-- <div class="message">
+        <span class="outputMessage">{{greetingName1}}</span>
     </div> --}}
 
-    {{!-- <div class="buttons">
-        <div class="greet-button">
-            <button class="greet" type="button" name="button">Greet</button>
-        </div>
 
-        <div class="clear-button">
-            <button class="clear" type="button" name="clear-count-button">Clear count</button>
-        </div>
-    </div> --}}
+    <form class="" action="/greeted" method="post">
+        <button class="names" type="submit" name="list-button">Names Greeted</button></a>
+    </form>
 
-    <div class="names-button">
-        <a href="namesDisplay/index.html"><button class="names" type="button" name="list-button">Names
-                Greeted</button></a>
 
-    </div>
-
-    {{!-- <div class="TDD-button">
-        <a href="https://kimfrans.github.io/greetings/factory-function/"><button class="tdd" type="button"
-                name="tdd-button">TDD</button></a>
-    </div> --}}
 
 </body>
 

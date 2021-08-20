@@ -113,8 +113,28 @@ module.exports = function greetName() {
     function clearTheCountButton() {
         greetCount = 0
         namesGreeted = {}
-        localStorage.clear()
     }
+
+    function findKeyAndValue(userName){
+        const filteredActions = [];
+        for (var key in namesGreeted) {
+            
+            if(key === userName){
+                filteredActions.push(namesGreeted[key]);
+                console.log(namesGreeted[key] + ' this is key')
+            }
+            // if (namesGreeted.hasOwnProperty(key)) {
+            //     if (namesGreeted.key === key) {
+            //         // add the action to the list
+            //         filteredActions.push(key);
+            //         console.log(key + " -> " + namesGreeted[key]);
+            //     }
+                
+            // }
+        }
+        return filteredActions
+    }
+
 
     return {
         greetLo,
@@ -128,6 +148,7 @@ module.exports = function greetName() {
         nameOb,
         greetedNames,
         noValues,
+        findKeyAndValue,
     }
 
 

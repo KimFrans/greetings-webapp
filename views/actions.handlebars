@@ -1,0 +1,33 @@
+<div class="row">
+    {{!-- <h1>Hello!</h1> --}}
+    {{!-- {{#each actions}} --}}
+    <nav>
+        <form action="/greetedList" method="get">
+            <button class="greetedList" type="submit" name="button">Back to Greeted List</button>
+        </form>
+
+        <form action="/greetingsBack" method="get">
+    <button class="greetingsBack" type="submit" name="button">Back to Geetings</button>
+    </form>
+    </nav>
+
+
+
+    <h2>Hello {{userName}} you have been greeted {{#each counter}} {{this}} {{/each}} times!</h2>
+    {{!-- {{/each}} --}}
+
+    {{!-- <table>
+        <tr>
+            <th>Name</th>
+            <th>Number of times greeted</th>
+        </tr>
+        {{#each actions}}
+        <h1>Hello!</h1>
+        <tr>
+            <td>{{@key}}</td>
+            <th>{{this}}</th>
+        </tr>
+        {{/each}}
+    </table> --}}
+
+</div>
