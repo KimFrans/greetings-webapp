@@ -16,42 +16,83 @@ app.set('view engine', 'handlebars');
 
 app.use(express.static('public'));
 
+// app.use(session({
+//     secret: "Error Message String",
+//     resave: false,
+//     saveUninitialized: true
+// }));
+
+// app.use(flash());
+
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 
 app.get('/', function (req, res) {
+    // req.flash('errorMess', greetingName.errorMessName());
+    // req.flash('greetingName1', greetingName.values().messageGreet);
 
     res.render('index')
 });
 
 app.post('/greetings', function (req, res) {
     // console.log(req.body);
-    
-    greetingName.getUserName(req.body.names)
 
-    var greetingName1 = greetingName.greet(req.body.language)
-    var errorName = greetingName.values().sameName
+    greetingName.getUserName(req.body.names)
+    console.log(req.body.names)
+    // greetingName.greet(req.body.language)
     // console.log(greetingName1)
 
-    // req.flash('info', errorMess);
+    if (req.body.names != "") {
+        greetingName.greet(req.body.language)
+        greetingName.values().messageGreet
 
-    res.render('index',{
-        greetingName1, 
-        counterValue : greetingName.values().greets,
-        errorMess : errorName,
-        
-    })
+        res.render('index', {
+            greetingName1: greetingName.greet(),
+            counterValue: greetingName.values().greets,
+
+        });
+    }
+    else {
+        res.render('index', {
+            // counterValue: greetingName.values().greets,
+            errorMess: greetingName.errorMessName(),
+        })
+
+    }
+    // res.render('index', {
+    //     counterValue: greetingName.values().greets,
+
+    // })
+
+
 });
 
-// app.get('/greetings', function (req, res) {
-//     req.flash('info', {errorMess : greetingName.values().sameName});
-//     res.redirect('/');
-// });
+app.get('/backtogreetings', function (req, res) {
+
+    res.render('index', {
+        counterValue: greetingName.values().greets
+    });
+});
+
+app.get('/greetedList', function (req, res) {
+
+    res.render('../namesDisplay/list', {
+        userNames: greetingName.values().nameObject
+
+    });
+});
+
+app.get('/greetingsBack', function (req, res) {
+
+    res.render('index', {
+        counterValue: greetingName.values().greets
+    });
+});
 
 
-app.post('/clearCount', function (req, res){ 
+app.post('/clearCount', function (req, res) {
     var clear = greetingName.clearTheCountButton();
 
     res.render('index', {
@@ -60,38 +101,38 @@ app.post('/clearCount', function (req, res){
 });
 
 
-app.post('/greeted', function (req, res){
+app.post('/greeted', function (req, res) {
     var namesGreeted = greetingName.values().nameObject
-    console.log(namesGreeted)
+    // console.log(namesGreeted)
 
     res.render('../namesDisplay/list', {
-        userNames : namesGreeted,
+        userNames: namesGreeted,
     })
 });
 
-app.get('/counter/:userName', function(req, res){
+app.get('/counter/:userName', function (req, res) {
     const userName = req.params.userName
     console.log(userName)
     // var user = greetingName.findKeyAndValue()
     console.log(greetingName.findKeyAndValue(userName))
-    res.render('actions',{
-        counter :greetingName.findKeyAndValue(userName),
-        userName : userName
+    res.render('actions', {
+        counter: greetingName.findKeyAndValue(userName),
+        userName: userName
     });
 });
 
-app.get('/backtogreetings', function(req, res){
+app.get('/backtogreetings', function (req, res) {
     res.render('index')
 });
 
-app.get('/greetedList', function(req, res){
+app.get('/greetedList', function (req, res) {
     var namesGreeted = greetingName.values().nameObject
-    res.render('../namesDisplay/list',{
-        userNames : namesGreeted,
+    res.render('../namesDisplay/list', {
+        userNames: namesGreeted,
     })
 });
 
-app.get('/greetingsBack', function(req, res){
+app.get('/greetingsBack', function (req, res) {
     res.render('index')
 });
 
