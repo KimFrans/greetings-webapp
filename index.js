@@ -56,7 +56,7 @@ app.post('/greetings', function (req, res) {
     }
     else {
         res.render('index', {
-            // counterValue: greetingName.values().greets,
+            counterValue: greetingName.values().greets,
             errorMess: greetingName.errorMessName(),
         })
 
