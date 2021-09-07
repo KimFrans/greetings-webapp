@@ -1,4 +1,6 @@
-module.exports = function greetName() {
+const { Pool } = require("pg");
+
+module.exports = function greetName(pool) {
 
     var greetMessage = "";
     var errorMessageName = "Oops, you have not enetered a name"
@@ -10,7 +12,41 @@ module.exports = function greetName() {
     var ital = "Ciao, "
     var greetCount = 0
     var namesGreeted = {}
-    var userName = ""
+    var userName = "";
+    namesGreeted = pool;
+
+    //async functions
+
+    async function poolNameIn(nameEntered){
+
+        const dbAccess = await pool.query('SELECT * FROM namesGreetedDB WHERE username = $1', [nameEntered]);
+
+        if(dbAccess.rows.length === 0){
+            await pool.query('insert into namesGreetedDB (username, count) values($1, $2)', [nameEntered, 1])
+        }
+        else{
+            await pool.query('UPDATE namesGreetedDB SET count = count + 1 WHERE username = $1', [nameEntered])
+        }
+
+    }
+
+    async function getDBinfo(){
+        const gettingName = await pool.query('SELECT * FROM namesGreetedDB') 
+
+
+        return gettingName.rows;
+    }
+
+    async function deleteRecords(){
+        const deleteAll = await pool.query('DELETE FROM namesGreetedDB')
+    }
+
+    async function countDB(){
+        const keepCount = await pool.query('SELECT count(*) FROM namesGreetedDB')
+
+        return keepCount.rows[0].count;
+    }
+
 
     function getUserName(names) {
         var newName = names.trim();
@@ -115,26 +151,23 @@ module.exports = function greetName() {
         namesGreeted = {}
     }
 
-    function findKeyAndValue(userName){
-        const filteredActions = [];
-        for (var key in namesGreeted) {
+    async function findKeyAndValue(userName){
+        // const filteredActions = [];
+        // for (var key in namesGreeted) {
             
-            if(key === userName){
-                filteredActions.push(namesGreeted[key]);
-                console.log(namesGreeted[key] + ' this is key')
-            }
-            // if (namesGreeted.hasOwnProperty(key)) {
-            //     if (namesGreeted.key === key) {
-            //         // add the action to the list
-            //         filteredActions.push(key);
-            //         console.log(key + " -> " + namesGreeted[key]);
-            //     }
-                
-            // }
-        }
-        return filteredActions
+        //     if(key === userName){
+        //         filteredActions.push(namesGreeted[key]);
+        //         console.log(namesGreeted[key] + ' this is key')
+        //     }
+        // }
+        // return filteredActions
+
+        const holderName = await pool.query(`SELECT * FROM namesGreetedDB WHERE username = $1`, [userName])
+
+        return userName
     }
 
+    
 
     return {
         greetLo,
@@ -149,6 +182,10 @@ module.exports = function greetName() {
         greetedNames,
         noValues,
         findKeyAndValue,
+        poolNameIn,
+        getDBinfo,
+        deleteRecords,
+        countDB,
     }
 
 

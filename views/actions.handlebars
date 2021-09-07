@@ -7,13 +7,18 @@
         </form>
 
         <form action="/greetingsBack" method="get">
-    <button class="greetingsBack" type="submit" name="button">Back to Geetings</button>
-    </form>
+            <button class="greetingsBack" type="submit" name="button">Back to Geetings</button>
+        </form>
     </nav>
 
 
 
-    <h2>Hello {{userName}} you have been greeted {{#each counter}} {{this}} {{/each}} times!</h2>
+    {{!-- <h2>Hello {{userName}} you have been greeted {{#each counter}} {{this}} {{/each}} times!</h2> --}}
+
+    {{!-- {{#each userName}} --}}
+    <h2>Hello {{username}} you have been greeted {{count}} times!</h2>
+
+    {{!-- {{/each}} --}}
     {{!-- {{/each}} --}}
 
     {{!-- <table>

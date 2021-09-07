@@ -20,15 +20,19 @@
                 <th>Names</th>
             </tr>
             {{#each userNames}}
-            <tr>
-                <td><a href="/counter/{{@key}}">{{@key}}</a></td>
-            </tr>
+            {{!-- <form action="/counter"> --}}
+                <tr>
+                    {{!-- <td><a href="/counter/{{@key}}">{{@key}}</a></td> --}}
+                    <td><a href="/counter/{{username}}">{{username}}</a></td>
+                </tr>
+            {{!-- </form> --}}
+
             {{/each}}
         </table>
     </div>
 
     <form action="/backtogreetings" method="get">
-    <button class="backToGreetings" type="submit" name="button">Back to Geetings</button>
+        <button class="backToGreetings" type="submit" name="button">Back to Geetings</button>
     </form>
 
 
