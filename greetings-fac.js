@@ -13,7 +13,7 @@ module.exports = function greetName(pool) {
     var greetCount = 0
     var namesGreeted = {}
     var userName = "";
-    namesGreeted = pool;
+    // namesGreeted = pool;
 
     //async functions
 
