@@ -121,7 +121,9 @@ app.post('/greetings', async function (req, res) {
 app.get('/backtogreetings', async function (req, res) {
 
     res.render('index', {
-        counterValue: greetingName.values().greets
+        // counterValue: greetingName.values().greets
+        counterValue: await greetingName.countDB()
+
     });
 });
 
@@ -137,14 +139,16 @@ app.get('/greetedList', async function (req, res) {
 app.get('/greetingsBack', async function (req, res) {
 
     res.render('index', {
-        counterValue: greetingName.values().greets
+        // counterValue: greetingName.values().greets
+        counterValue: await greetingName.countDB()
+
     });
 });
 
 
 app.post('/clearCount', async function (req, res) {
     var clear = greetingName.clearTheCountButton();
-    var clearRows = greetingName.deleteRecords();
+    var clearRows = await greetingName.deleteRecords();
 
     res.render('index', {
         clear,
@@ -179,9 +183,13 @@ app.get('/counter/:userName', async function (req, res) {
     });
 });
 
-app.get('/backtogreetings', async function (req, res) {
-    res.render('index')
-});
+// app.get('/backtogreetings', async function (req, res) {
+   
+//     res.render('index',{
+//         counterValue: await greetingName.countDB()
+
+//     })
+// });
 
 app.get('/greetedList', async function (req, res) {
     // var namesGreeted = greetingName.values().nameObject
@@ -191,9 +199,9 @@ app.get('/greetedList', async function (req, res) {
     })
 });
 
-app.get('/greetingsBack', async function (req, res) {
-    res.render('index')
-});
+// app.get('/greetingsBack', async function (req, res) {
+//     res.render('index')
+// });
 
 
 const PORT = process.env.PORT || 3011
