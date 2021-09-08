@@ -1,43 +1,53 @@
-let assert = require("assert");
-let greetings = require("../greetings-fac");
-let greetingTest = greetings()
+const assert = require('assert');
+const greeting = require('../greetings-fac');
+const pg = require("pg");
+// const greetingTest = greeting()
+const Pool = pg.Pool;
 
-describe('Greetings Function', function () {
+const connectionString = process.env.DATABASE_URL || 'postgresql://codex:pg123@localhost:5432/greetings-test';
 
-    // let userName = "Kim"
+const pool = new Pool({
+    connectionString
+});
 
-    // greetingTest.getUserName(userName)
-    it('Should be able to get the user name and greet', function () {
+const greetingTest = greeting(pool)
+
+describe('The greetings web app', function () {
+
+    beforeEach(async function () {
+        // clean the tables before each test run
+        await pool.query("delete from namesGreetedDB;");
+    });
+
+    it('should get the name and greet to pass the test', async function () {
+
         greetingTest.getUserName("kim")
         greetingTest.greet("latin")
 
         assert.equal("Salve, Kim", greetingTest.values().messageGreet)
-        // assert.equal("Kim", greetingTest.getUserName(userName));
+
+
     });
-
-    it('Should not greet the same name twice', function(){
-        greetingTest.getUserName("kim")
-        greetingTest.greet("latin")
-        greetingTest.getUserName("Kim")
-        greetingTest.greet("latin")
-
-        assert.equal("You have already entered this name", greetingTest.values().sameName)
-    });
-
-    it('Should display all the names greeted' , function(){
+    it('should get the name and greet to pass the test', async function () {
 
         greetingTest.getUserName("kim")
-        greetingTest.greet("latin")
-        greetingTest.getUserName("Kelly")
-        greetingTest.greet("italian")
-        greetingTest.getUserName("qwerty")
         greetingTest.greet("turkish")
 
-        assert.deepEqual({ Kim: 3, Kelly: 0, Qwerty: 0 }, greetingTest.values().nameObject)
+        assert.equal("Merhaba, Kim", greetingTest.values().messageGreet)
+
+
+    });
+    it('should get the name and greet to pass the test', async  function () {
+
+        greetingTest.getUserName("kim")
+        greetingTest.greet("italian")
+
+        assert.equal("Ciao, Kim", greetingTest.values().messageGreet)
+
 
     });
 
-    it('Should increase the counter' , function(){
+    it('Should increase the counter', async  function () {
 
         greetingTest.getUserName("kim")
         greetingTest.greet("latin")
@@ -50,15 +60,118 @@ describe('Greetings Function', function () {
 
     });
 
-    it('Should display error messsage when the same name has been entered' , function(){
+    it('should get the count from the database for a specific name', async function(){
 
-        greetingTest.getUserName("kim")
+        greetingTest.getUserName("Kelly")
         greetingTest.greet("latin")
-        greetingTest.getUserName("Kim")
-        greetingTest.greet("turkish")
 
-        assert.equal("You have already entered this name", greetingTest.values().sameName)
+        await greetingTest.poolNameIn("Kelly")
+        await greetingTest.countDB()
+
+        assert.equal(1, await greetingTest.countDB())
+
 
     });
 
+    it('should get the name from the database', async function(){
+
+        greetingTest.getUserName("Kelly")
+        greetingTest.greet("latin")
+
+        await greetingTest.poolNameIn("Kelly")
+        await greetingTest.getDBinfo()
+
+        var arrayValue = [] 
+        var valueFromDB = await greetingTest.getDBinfo();
+        valueFromDB.forEach(element => {
+            arrayValue.push({username:element.username})
+        });
+
+        assert.deepEqual([{username:"Kelly"}], arrayValue)
+
+
+    });
+
+
+    after(function () {
+        pool.end();
+    })
 });
+
+// describe('Greetings Function', function () {
+
+
+//     it('Should be able to get the user name and greet', function () {
+//         greetingTest.getUserName("kim")
+//         greetingTest.greet("latin")
+
+//         assert.equal("Salve, Kim", greetingTest.values().messageGreet)
+
+//     });
+
+
+// });
+
+// let assert = require("assert");
+// let greetings = require("../greetings-fac");
+// let greetingTest = greetings()
+
+// describe('Greetings Function', function () {
+
+
+//     it('Should be able to get the user name and greet', function () {
+//         greetingTest.getUserName("kim")
+//         greetingTest.greet("latin")
+
+//         assert.equal("Salve, Kim", greetingTest.values().messageGreet)
+
+//     });
+
+//     it('Should not greet the same name twice', function(){
+//         greetingTest.getUserName("kim")
+//         greetingTest.greet("latin")
+//         greetingTest.getUserName("Kim")
+//         greetingTest.greet("latin")
+
+//         assert.equal("You have already entered this name", greetingTest.values().sameName)
+//     });
+
+//     it('Should display all the names greeted' , function(){
+
+//         greetingTest.getUserName("kim")
+//         greetingTest.greet("latin")
+//         greetingTest.getUserName("Kelly")
+//         greetingTest.greet("italian")
+//         greetingTest.getUserName("qwerty")
+//         greetingTest.greet("turkish")
+
+//         assert.deepEqual({ Kim: 3, Kelly: 0, Qwerty: 0 }, greetingTest.values().nameObject)
+
+//     });
+
+//     it('Should increase the counter' , function(){
+
+//         greetingTest.getUserName("kim")
+//         greetingTest.greet("latin")
+//         greetingTest.getUserName("Kelly")
+//         greetingTest.greet("italian")
+//         greetingTest.getUserName("qwerty")
+//         greetingTest.greet("turkish")
+
+//         assert.deepEqual(3, greetingTest.values().greets)
+
+//     });
+
+//     it('Should display error messsage when the same name has been entered' , function(){
+
+//         greetingTest.getUserName("kim")
+//         greetingTest.greet("latin")
+//         greetingTest.getUserName("Kim")
+//         greetingTest.greet("turkish")
+
+//         assert.equal("You have already entered this name", greetingTest.values().sameName)
+
+//     });
+
+// });
+

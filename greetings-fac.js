@@ -48,12 +48,13 @@ module.exports = function greetName(pool) {
     }
 
 
-    function getUserName(names) {
+
+    async function getUserName(names) {
         var newName = names.trim();
         userName = newName.charAt(0).toUpperCase() + newName.slice(1);
     }
 
-    function greet(radioCheck) {
+    async function greet(radioCheck) {
 
 
         if (namesGreeted.hasOwnProperty(userName)) {
