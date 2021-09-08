@@ -8,7 +8,7 @@ node_js:
   - 12
 before_script:
   - psql -c 'create database greetings-test;' -U postgres
-  - psql -U postgres -d greetings-test -a -f database.sql
+  - psql -U postgres -d greetings-test -a -f greet-database.sql
 services:
   - postgresql
 addons:
