@@ -19,7 +19,7 @@ describe('The greetings web app', function () {
         await pool.query("delete from namesGreetedDB;");
     });
 
-    it('should get the name and greet to pass the test', async function () {
+    it('should get the name entered and greet in selected language to pass the test', async function () {
 
         greetingTest.getUserName("kim")
         greetingTest.greet("latin")
@@ -28,7 +28,7 @@ describe('The greetings web app', function () {
 
 
     });
-    it('should get the name and greet to pass the test', async function () {
+    it('should greet Kim in turkish to pass the test', async function () {
 
         greetingTest.getUserName("kim")
         greetingTest.greet("turkish")
@@ -37,7 +37,7 @@ describe('The greetings web app', function () {
 
 
     });
-    it('should get the name and greet to pass the test', async  function () {
+    it('should greet Kim in latin to pass the test ', async function () {
 
         greetingTest.getUserName("kim")
         greetingTest.greet("italian")
@@ -47,7 +47,7 @@ describe('The greetings web app', function () {
 
     });
 
-    it('Should increase the counter', async  function () {
+    it('Should increase the counter when a new name is entered', async function () {
 
         greetingTest.getUserName("kim")
         greetingTest.greet("latin")
@@ -60,7 +60,7 @@ describe('The greetings web app', function () {
 
     });
 
-    it('should get the count from the database for a specific name', async function(){
+    it('should get the count from the database for a specific name', async function () {
 
         greetingTest.getUserName("Kelly")
         greetingTest.greet("latin")
@@ -73,7 +73,7 @@ describe('The greetings web app', function () {
 
     });
 
-    it('should get the name from the database', async function(){
+    it('should get the username from the database', async function () {
 
         greetingTest.getUserName("Kelly")
         greetingTest.greet("latin")
@@ -81,14 +81,23 @@ describe('The greetings web app', function () {
         await greetingTest.poolNameIn("Kelly")
         await greetingTest.getDBinfo()
 
-        var arrayValue = [] 
+        var arrayValue = []
         var valueFromDB = await greetingTest.getDBinfo();
         valueFromDB.forEach(element => {
-            arrayValue.push({username:element.username})
+            arrayValue.push({ username: element.username })
         });
 
-        assert.deepEqual([{username:"Kelly"}], arrayValue)
+        assert.deepEqual([{ username: "Kelly" }], arrayValue)
 
+
+    });
+
+    it('Should display error messsage when no name has been entered', function () {
+
+        greetingTest.getUserName("")
+        greetingTest.greet("latin")
+
+        assert.equal("Oops, you have not enetered a name", greetingTest.errorMessName())
 
     });
 
