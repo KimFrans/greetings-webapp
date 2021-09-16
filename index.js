@@ -90,7 +90,7 @@ app.get('/backtogreetings', async function (req, res) {
 
 app.get('/greetedList', async function (req, res) {
     
-    res.render('../namesDisplay/list', {
+    res.render('list', {
        
         userNames : await greetingName.getDBinfo()
 
@@ -123,7 +123,7 @@ app.post('/greeted', async function (req, res) {
     var namesGreeted = await greetingName.getDBinfo()
     
 
-    res.render('../namesDisplay/list', {
+    res.render('list', {
         userNames: namesGreeted,
     })
 });
