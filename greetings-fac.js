@@ -4,17 +4,7 @@ module.exports = function greetName(pool) {
 
     var greetMessage = "";
     var errorMessageName = "Oops, you have not enetered a name"
-    var errormessageLan = "Oops you have not selected a language"
-    var errorMessageSameName = ""
-    var errorNoValues = "Please enter name and select language"
-    var la = "Salve, "
-    var tur = "Merhaba, "
-    var ital = "Ciao, "
-    var greetCount = 0
-    var namesGreeted = {}
-    var userName = "";
-    // namesGreeted = pool;
-
+    
     //async functions
 
     async function poolNameIn(nameEntered){
@@ -33,7 +23,6 @@ module.exports = function greetName(pool) {
     async function getDBinfo(){
         const gettingName = await pool.query('SELECT * FROM namesGreetedDB') 
 
-
         return gettingName.rows;
     }
 
@@ -47,122 +36,47 @@ module.exports = function greetName(pool) {
         return keepCount.rows[0].count;
     }
 
-
-
     async function getUserName(names) {
         var newName = names.trim();
         userName = newName.charAt(0).toUpperCase() + newName.slice(1);
     }
 
-    async function greet(radioCheck) {
+    async function greet(radioCheck){
 
-
-        if (namesGreeted.hasOwnProperty(userName)) {
-            namesGreeted[userName]++;
-
-            nameOb()
-
+        if(userName.match("^[a-zA-Z]*$")){
             if (radioCheck == "latin") {
-                greetMessage = la + userName
+                greetMessage = "Salve, " + userName
             }
             if (radioCheck == "turkish") {
-                greetMessage = tur + userName
+                greetMessage = "Merhaba, " + userName
             }
             if (radioCheck == "italian") {
-                greetMessage = ital + userName
+                greetMessage = "Ciao, " + userName
             }
         }
-        if (namesGreeted[userName] === undefined) {
-            errorMessageSameName = ''
-            if (userName.match("^[a-zA-Z]*$")) {
-
-                if (radioCheck == "latin") {
-                    greetMessage = la + userName
-                    namesGreeted[userName] = 0;
-                    greetCount++;
-                }
-                if (radioCheck == "turkish") {
-                    greetMessage = tur + userName
-                    namesGreeted[userName] = 0;
-                    greetCount++;
-                }
-                if (radioCheck == "italian") {
-                    greetMessage = ital + userName
-                    namesGreeted[userName] = 0;
-                    greetCount++;
-                }
-
-            }
-            else if (!userName.match("^[a-zA-Z]*$")) {
+        else if (!userName.match("^[a-zA-Z]*$")) {
+            console.log("not match")
                 greetMessage = ""
                 errorMessageSameName = "Oh no, invalid name entered!"
-            }
-
-
         }
-        return greetMessage
+        
 
+        return greetMessage;
     }
 
-    function errorMessRadio() {
-        return errormessageLan
-    }
-
-    function nameOb() {
-        if (namesGreeted.hasOwnProperty(userName)) {
-            return errorMessageSameName = "You have already entered this name"
-        }
-    }
-
-    function errorMessName() {
+    
+    async function errorMessName() {
         return errorMessageName
     }
 
-    function greetedNames() {
-        return namesGreeted
-    }
-
-    function nameObs(name) {
-        namesGreeted = name
-    }
-
-    function greetLo(name) {
-        greetCount = greetCount
-    }
-
-    function noValues() {
-        return errorNoValues
-    }
-
-    function values() {
+    async function values() {
         return {
-            nameObject: namesGreeted,
-            theUser: userName,
-            greets: greetCount,
-            italian: ital,
-            latin: la,
-            turkish: tur,
             messageGreet: greetMessage,
-            sameName: errorMessageSameName
         }
     }
 
-    function clearTheCountButton() {
-        greetCount = 0
-        namesGreeted = {}
-    }
-
     async function findKeyAndValue(userName){
-        // const filteredActions = [];
-        // for (var key in namesGreeted) {
-            
-        //     if(key === userName){
-        //         filteredActions.push(namesGreeted[key]);
-        //         console.log(namesGreeted[key] + ' this is key')
-        //     }
-        // }
-        // return filteredActions
-
+        
         const holderName = await pool.query(`SELECT * FROM namesGreetedDB WHERE username = $1`, [userName])
 
         return userName
@@ -171,17 +85,10 @@ module.exports = function greetName(pool) {
     
 
     return {
-        greetLo,
-        nameObs,
         greet,
-        errorMessRadio,
         values,
         getUserName,
         errorMessName,
-        clearTheCountButton,
-        nameOb,
-        greetedNames,
-        noValues,
         findKeyAndValue,
         poolNameIn,
         getDBinfo,
