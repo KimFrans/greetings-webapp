@@ -6,6 +6,7 @@ const session = require('express-session');
 const greetingsWeb = require('./greetings-fac');
 const pg = require('pg')
 const Pool = pg.Pool;
+const greetRoute = require('./routes/greeting-routes')
 
 // should we use a SSL connection
 let useSSL = false;
@@ -26,6 +27,7 @@ const pool = new Pool({
 
 const app = express();
 const greetingName = greetingsWeb(pool)
+const greetingRoute = greetRoute(greetingName)
 
 // const Pool = pg.Pool;
 
@@ -40,117 +42,127 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 
-app.get('/', async function (req, res) {
-    res.render('index',{
-        counterValue : await greetingName.countDB()
-    })
-});
+app.get('/', greetingRoute.home);
+app.post('/greetings', greetingRoute.greetUser);
+app.get('/backtogreetings', greetingRoute.backToHome)
+app.get('/greetedList', greetingRoute.backToGreetingList)
+app.get('/greetingsBack', greetingRoute.backToHomeFrom)
+app.post('/clearCount', greetingRoute.clearNames)
+app.post('/greeted', greetingRoute.showGreetedNames)
+app.get('/counter/:userName', greetingRoute.numberOfUserGreets)
+app.get('/greetedList', greetingRoute.greetedListOfNames)
 
-app.post('/greetings', async function (req, res) {
+// app.get('/', async function (req, res) {
+//     res.render('index',{
+//         counterValue : await greetingName.countDB()
+//     })
+// });
 
-    const  databaseName = req.body.names;
+// app.post('/greetings', async function (req, res) {
 
-    try {
-        await greetingName.getUserName(req.body.names)
+//     const  databaseName = req.body.names;
 
-        if (req.body.names != "") {
-           await greetingName.greet(req.body.language)
-            await greetingName.values().messageGreet
-            await greetingName.poolNameIn(databaseName);            
+//     try {
+//         await greetingName.getUserName(req.body.names)
 
-            res.render('index', {
-                greetingName1: await greetingName.greet(),
-                counterValue: await greetingName.countDB()
+//         if (req.body.names != "") {
+//            await greetingName.greet(req.body.language)
+//             await greetingName.values().messageGreet
+//             await greetingName.poolNameIn(databaseName);            
 
-            });
-        }
-        else {
-            res.render('index', {
+//             res.render('index', {
+//                 greetingName1: await greetingName.greet(),
+//                 counterValue: await greetingName.countDB()
+
+//             });
+//         }
+//         else {
+//             res.render('index', {
                 
-                counterValue: await greetingName.countDB(),
-                errorMess: await greetingName.errorMessName(),
-            })
+//                 counterValue: await greetingName.countDB(),
+//                 errorMess: await greetingName.errorMessName(),
+//             })
 
-        }
-    }
-    catch(err){
-        console.log(err)
-    }
+//         }
+//     }
+//     catch(err){
+//         console.log(err)
+//     }
 
-});
+// });
 
-app.get('/backtogreetings', async function (req, res) {
+// app.get('/backtogreetings', async function (req, res) {
 
-    res.render('index', {
+//     res.render('index', {
         
-        counterValue: await greetingName.countDB()
+//         counterValue: await greetingName.countDB()
 
-    });
-});
+//     });
+// });
 
-app.get('/greetedList', async function (req, res) {
+// app.get('/greetedList', async function (req, res) {
     
-    res.render('list', {
+//     res.render('list', {
        
-        userNames : await greetingName.getDBinfo()
+//         userNames : await greetingName.getDBinfo()
 
-    });
-});
+//     });
+// });
 
-app.get('/greetingsBack', async function (req, res) {
+// app.get('/greetingsBack', async function (req, res) {
 
-    res.render('index', {
+//     res.render('index', {
         
-        counterValue: await greetingName.countDB()
+//         counterValue: await greetingName.countDB()
 
-    });
-});
+//     });
+// });
 
 
-app.post('/clearCount', async function (req, res) {
+// app.post('/clearCount', async function (req, res) {
     
-    var clearRows = await greetingName.deleteRecords();
+//     var clearRows = await greetingName.deleteRecords();
 
-    res.render('index', {
+//     res.render('index', {
       
-        clearRows
-    })
-});
+//         clearRows
+//     })
+// });
 
 
-app.post('/greeted', async function (req, res) {
+// app.post('/greeted', async function (req, res) {
     
-    var namesGreeted = await greetingName.getDBinfo()
+//     var namesGreeted = await greetingName.getDBinfo()
     
 
-    res.render('list', {
-        userNames: namesGreeted,
-    })
-});
+//     res.render('list', {
+//         userNames: namesGreeted,
+//     })
+// });
 
-app.get('/counter/:userName', async function (req, res) {
-    const userName = req.params.userName
-    console.log(userName)
+// app.get('/counter/:userName', async function (req, res) {
+//     const userName = req.params.userName
+//     console.log(userName)
 
-    var see = await pool.query(`SELECT * FROM namesGreetedDB WHERE username = $1`, [userName])
+//     var see = await pool.query(`SELECT * FROM namesGreetedDB WHERE username = $1`, [userName])
 
-    console.log(see.rows[0])
-    const yeah = await greetingName.findKeyAndValue(userName)
-    res.render('actions', {
+//     console.log(see.rows[0])
+//     const yeah = await greetingName.findKeyAndValue(userName)
+//     res.render('actions', {
         
-        username : see.rows[0].username,
-        count : see.rows[0].count
-    });
-});
+//         username : see.rows[0].username,
+//         count : see.rows[0].count
+//     });
+// });
 
 
-app.get('/greetedList', async function (req, res) {
+// app.get('/greetedList', async function (req, res) {
     
-    var namesGreeted = await greetingName.getDBinfo()
-    res.render('../namesDisplay/list', {
-        userNames: namesGreeted,
-    })
-});
+//     var namesGreeted = await greetingName.getDBinfo()
+//     res.render('../namesDisplay/list', {
+//         userNames: namesGreeted,
+//     })
+// });
 
 
 const PORT = process.env.PORT || 3011

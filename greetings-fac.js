@@ -79,7 +79,8 @@ module.exports = function greetName(pool) {
         
         const holderName = await pool.query(`SELECT * FROM namesGreetedDB WHERE username = $1`, [userName])
 
-        return userName
+        // return userName
+        return holderName
     }
 
     
